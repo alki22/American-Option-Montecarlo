@@ -16,3 +16,8 @@ def Montecarlo(s0, r, sigma, T, n, N, K):
 	for i in range(N):
 		for j in range(1, n): 
 			table[i][j] = table[i][j - 1] * np.e ** ((r - (sigma**2)) * T / n + sigma * Z(T,n))
+
+	# Fill the n-th column with exercise values
+	for j in range(N):
+		St = table[j][n-1]
+		table[j][n - 1] = np.maximum(K - St, 0)
