@@ -8,7 +8,7 @@ def Z(T,n):
 	return 0
 
 
-def f(St, a, b, c):
+def functional_relation(St, a, b, c):
 	return a + b * St + c * (St ** 2)
 
 
@@ -45,10 +45,10 @@ def Montecarlo(S0, r, sigma, T, n, N, K):
 			x_data = prices_table[indices, i][0]
 			y_data = payoffs_table[indices, i][0]
 			
-			# Get optimum values for a, b and c that minimize f with the given data
-			opt_values = curve_fit(f, x_data, y_data)[0]
+			# Get optimum values for a, b and c that minimize functional_relation with the given data
+			opt_values = curve_fit(functional_relation, x_data, y_data)[0]
 
-			Vt = f(x_data, opt_values[0], opt_values[1], opt_values[2])
+			Vt = functional_relation(x_data, opt_values[0], opt_values[1], opt_values[2])
 			maximums = np.maximum(Vt, y_data)
 			indices = np.where(maximums != y_data)
 
@@ -58,7 +58,6 @@ def Montecarlo(S0, r, sigma, T, n, N, K):
 
 	# Set X to the mean value of the first column elements
 	X = np.mean(payoffs_table[:, 1]) * (np.e ** (-r))
-	print X
 	# Get the bonus price
 	bonus = np.maximum(K - S0, X)
 
